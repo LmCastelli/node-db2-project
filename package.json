@@ -4,6 +4,8 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
+    "up": "knex migrate:up",
+    "down": "knex migrate:down",
     "test": "cross-env NODE_ENV=testing jest --verbose --runInBand"
   },
   "devDependencies": {

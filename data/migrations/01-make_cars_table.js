@@ -3,17 +3,17 @@ exports.up = async function (knex) {
     table.increments('id')
 
     table.text('vin',40)
-      .required()
+      .notNullable()
       .unique()
     
     table.text('make',20)
-      .required()
+      .notNullable()
 
     table.text('model',20)
-      .required()
+      .notNullable()
 
     table.decimal('mileage',20)
-      .required() 
+      .notNullable() 
     
     table.text('title',20)
       
