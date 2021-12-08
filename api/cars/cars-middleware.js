@@ -1,4 +1,5 @@
 const Cars = require('./cars-model')
+const vinValidator = require('vin-validator')
 
 
 const checkCarId = async (req, res, next) => {
@@ -18,23 +19,34 @@ const checkCarId = async (req, res, next) => {
 
 const checkCarPayload = (req, res, next) => {
   if (!req.body.vin) {
-    next({status: 400, message: "Vin is missing"})
+    next({status: 400, message: "vin is missing"})
+  } else if (!req.body.make) {
+    next({status: 400, message: "make is missing"})
+  } else if (!req.body.model) {
+    next({status:400, message: "model is missing"})
+  } else if (!req.body.mileage) {
+    next({status:400, message: "mileage is missing"})
   } else {
     next()
   }
 }
 
 const checkVinNumberValid = (req, res, next) => {
-  // DO YOUR MAGIC
+  const isValidVin = vinValidator.validate(req.body.vin)
+  if (isValidVin === true) {
+    next()
+  } else {
+    next({status: 400, message: `vin ${req.body.vin} is invalid`})
+  }
 }
 
-const checkVinNumberUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+const checkVinNumberUnique =  (req, res, next) => {
+  
 }
 
 const errorHandling = (err, req, res, next) => {
   res.status(err.status || 500).json({
-    message: `There was an error: ${err.message}`
+    message: `${err.message}`
   })
 }
 
