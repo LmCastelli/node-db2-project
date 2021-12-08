@@ -5,7 +5,7 @@ const {
     errorHandling, 
     checkCarPayload, 
     checkVinNumberValid, 
-    checkVinNumberUnique 
+    checkVinNumberUnique, 
 } = require('./cars-middleware');
 
 const Cars = require('./cars-model')
@@ -25,7 +25,7 @@ router.get('/:id', checkCarId, (req,res) => {
     res.status(200).json(req.car)
 })
 
-router.post('/', checkCarPayload, checkVinNumberValid,  (req, res, next) => {
+router.post('/', checkCarPayload, checkVinNumberValid, checkVinNumberUnique, (req, res, next) => {
     Cars.create(req.body) 
         .then(car => {
             res.status(201).json(car)

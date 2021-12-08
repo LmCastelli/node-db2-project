@@ -40,11 +40,16 @@ const checkVinNumberValid = (req, res, next) => {
   }
 }
 
-const checkVinNumberUnique =  (req, res, next) => {
-  
+const checkVinNumberUnique =  async (req, res, next) => {
+  const notUnique = await Cars.checkVin(req.body.vin)
+  if (notUnique) {
+    next({status: 400, message: `vin ${req.body.vin} already exists`})
+  } else {
+    next()
+  }
 }
 
-const errorHandling = (err, req, res, next) => {
+const errorHandling = (err, req, res, next) => {//eslint-disable-line
   res.status(err.status || 500).json({
     message: `${err.message}`
   })
